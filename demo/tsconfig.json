@@ -6,8 +6,10 @@
         "jsx": "react-jsx",
         "strict": true,
         "esModuleInterop": true,
-        "moduleResolution": "bundler",
-        "skipLibCheck": true
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "allowSyntheticDefaultImports": true
     },
     "include": ["src"]
 }
