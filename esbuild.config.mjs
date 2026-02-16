@@ -7,7 +7,7 @@ const buildOptions = {
     entryPoints: ['src/styles/style.scss', 'src/index.ts'],
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: isWatch,
     outdir: 'dist',
     format: 'cjs',
     external: ['react', 'react-dom'],
