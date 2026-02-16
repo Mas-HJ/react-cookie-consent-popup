@@ -1,0 +1,215 @@
+@use 'variables';
+@use 'utils' as *;
+
+// react-toggle base styles
+@import 'react-toggle/style.css';
+
+// ── Shared Button Styles ────────────────────────────────────────────
+
+%btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: to-rem(10) to-rem(20);
+    border-radius: to-rem(6);
+    font-family: inherit;
+    font-size: to-rem(14);
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+%btn-primary {
+    @extend %btn-base;
+
+    border: 2px solid var(--rcc-btn-primary-bg);
+    background-color: var(--rcc-btn-primary-bg);
+    color: var(--rcc-btn-primary-text);
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+}
+
+%btn-secondary {
+    @extend %btn-base;
+
+    border: 2px solid var(--rcc-btn-secondary-border);
+    background-color: var(--rcc-btn-secondary-bg);
+    color: var(--rcc-btn-secondary-text);
+
+    &:hover {
+        background-color: var(--rcc-btn-secondary-border);
+        color: var(--rcc-btn-primary-text);
+    }
+}
+
+// ── Popup Overlay ───────────────────────────────────────────────────
+
+.rcc-popup {
+    display: flex;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    padding: to-rem(16);
+    background-color: var(--rcc-backdrop);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    color: var(--rcc-text);
+}
+
+// ── Popup Card ──────────────────────────────────────────────────────
+
+.rcc-popup__card {
+    width: 100%;
+    max-width: to-rem(540);
+    border-radius: to-rem(12);
+    background-color: var(--rcc-bg);
+    box-shadow:
+        0 to-rem(20) to-rem(60) rgb(0 0 0 / 20%),
+        0 to-rem(4) to-rem(12) rgb(0 0 0 / 10%);
+    padding: to-rem(28) to-rem(24);
+
+    @include sm {
+        padding: to-rem(32);
+    }
+}
+
+.rcc-popup__message {
+    margin-bottom: to-rem(24);
+    font-size: to-rem(15);
+    line-height: 1.6;
+}
+
+.rcc-popup__actions {
+    display: grid;
+    gap: to-rem(8);
+    grid-template-columns: 1fr;
+
+    @include sm {
+        grid-template-columns: repeat(auto-fit, minmax(to-rem(120), 1fr));
+    }
+}
+
+.rcc-popup__btn--primary {
+    @extend %btn-primary;
+}
+
+.rcc-popup__btn--secondary {
+    @extend %btn-secondary;
+}
+
+// ── Settings Modal ──────────────────────────────────────────────────
+
+.rcc-settings {
+    display: grid;
+    width: 100%;
+    max-width: to-rem(560);
+    max-height: 85vh;
+    border-radius: to-rem(12);
+    background-color: var(--rcc-bg);
+    box-shadow:
+        0 to-rem(20) to-rem(60) rgb(0 0 0 / 20%),
+        0 to-rem(4) to-rem(12) rgb(0 0 0 / 10%);
+    grid-template-rows: auto 1fr auto;
+}
+
+.rcc-settings__content {
+    display: contents;
+}
+
+.rcc-settings__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: to-rem(20) to-rem(24);
+    border-bottom: 1px solid var(--rcc-border);
+}
+
+.rcc-settings__title {
+    margin: 0;
+    font-size: to-rem(18);
+    font-weight: 700;
+}
+
+.rcc-settings__close {
+    @extend %btn-base;
+
+    padding: to-rem(6) to-rem(12);
+    border: 1px solid var(--rcc-border);
+    background: transparent;
+    font-size: to-rem(13);
+}
+
+.rcc-settings__body {
+    overflow-y: auto;
+    padding: to-rem(16) to-rem(24);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--rcc-scrollbar-thumb) var(--rcc-scrollbar-track);
+
+    &::-webkit-scrollbar {
+        width: to-rem(6);
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--rcc-scrollbar-track);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: to-rem(3);
+        background: var(--rcc-scrollbar-thumb);
+    }
+}
+
+.rcc-settings__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: to-rem(14) 0;
+    border-bottom: 1px solid var(--rcc-border);
+    gap: to-rem(16);
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.rcc-settings__item__info {
+    flex: 1;
+}
+
+.rcc-settings__item__name {
+    display: block;
+    font-size: to-rem(15);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.rcc-settings__item__description {
+    margin: to-rem(4) 0 0;
+    font-size: to-rem(13);
+    line-height: 1.5;
+    opacity: 0.75;
+}
+
+.rcc-settings__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: to-rem(16) to-rem(24);
+    border-top: 1px solid var(--rcc-border);
+    gap: to-rem(8);
+}
+
+.rcc-settings__btn--primary {
+    @extend %btn-primary;
+}
+
+.rcc-settings__btn--secondary {
+    @extend %btn-secondary;
+}

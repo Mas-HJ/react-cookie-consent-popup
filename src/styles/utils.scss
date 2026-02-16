@@ -1,0 +1,20 @@
+@use 'sass:math';
+
+/// Convert pixel value to rem (base 16px)
+@function to-rem($px) {
+    @return math.div($px, 16) * 1rem;
+}
+
+/// Breakpoint: small screens and up (>= 600px)
+@mixin sm {
+    @media (min-width: 600px) {
+        @content;
+    }
+}
+
+/// Breakpoint: medium screens and up (>= 900px)
+@mixin md {
+    @media (min-width: 900px) {
+        @content;
+    }
+}
