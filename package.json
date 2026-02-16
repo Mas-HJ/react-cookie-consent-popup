@@ -11,9 +11,20 @@
         "url": "https://github.com/Mas-HJ/react-cookie-consent-popup/issues"
     },
     "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.js"
+        },
+        "./dist/styles/style.css": "./dist/styles/style.css"
+    },
+    "sideEffects": false,
     "files": [
-        "dist"
+        "dist",
+        "LICENSE"
     ],
     "scripts": {
         "build": "node esbuild.config.mjs",

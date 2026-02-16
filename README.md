@@ -1,5 +1,9 @@
 # react-cookie-consent-popup
 
+[![npm version](https://img.shields.io/npm/v/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-cookie-consent-popup)](https://bundlephobia.com/package/react-cookie-consent-popup)
+[![license](https://img.shields.io/npm/l/react-cookie-consent-popup)](https://github.com/Mas-HJ/react-cookie-consent-popup/blob/main/LICENSE)
+
 A React cookie consent popup component with a centered modal dialog. Supports service management, script loading, cookie/localStorage/sessionStorage cleanup, hash-based consent invalidation, a settings modal with toggles, and light/dark themes.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/Mas-HJ/react-cookie-consent-popup/tree/main/demo?file=src/App.tsx)
