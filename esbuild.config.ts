@@ -8,7 +8,7 @@ const shared: BuildOptions = {
     bundle: true,
     minify: true,
     sourcemap: isWatch,
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'object-hash', 'react-toggle'],
 };
 
 async function main() {
