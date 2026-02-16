@@ -1,6 +1,6 @@
 {
     "name": "react-cookie-consent-popup",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A React cookie consent popup component with centered modal dialog, service management, script loading, and light/dark theme support",
     "repository": {
         "type": "git",
