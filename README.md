@@ -12,7 +12,7 @@ A React cookie consent popup component with a centered modal dialog. Supports se
 
 > **Try it out instantly — no setup required!**
 >
-> [![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/Mas-HJ/react-cookie-consent-popup/tree/main/demo?file=/src/App.tsx)
+> [![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/Mas-HJ/react-cookie-consent-popup/tree/main?file=/demo/src/App.tsx)
 
 ---
 
