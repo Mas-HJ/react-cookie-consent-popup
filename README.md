@@ -6,7 +6,15 @@
 
 A React cookie consent popup component with a centered modal dialog. Supports service management, script loading, cookie/localStorage/sessionStorage cleanup, hash-based consent invalidation, a settings modal with toggles, and light/dark themes.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/Mas-HJ/react-cookie-consent-popup/tree/main/demo?file=src/App.tsx)
+---
+
+### Live Demo
+
+> **Try it out instantly — no setup required!**
+>
+> [![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/Mas-HJ/react-cookie-consent-popup/tree/main/demo?file=/src/App.tsx)
+
+---
 
 ## Installation
 
