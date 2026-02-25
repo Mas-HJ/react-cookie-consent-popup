@@ -1,4 +1,4 @@
-# react-cookie-consent-popup
+# :cookie: react-cookie-consent-popup
 
 [![npm version](https://img.shields.io/npm/v/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
 [![npm package size](https://img.shields.io/npm/unpacked-size/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
@@ -8,28 +8,28 @@
 
 A **zero-dependency** React cookie consent popup with GDPR-compliant service management, automatic script loading, storage cleanup, and light/dark themes.
 
-## Features
-
-- **Zero runtime dependencies** — only React as a peer dependency
-- **Service management** — define scripts, cookies, localStorage and sessionStorage per service
-- **Automatic cleanup** — scripts, cookies and storage are removed when consent is revoked
-- **Hash-based invalidation** — popup reappears automatically when your service config changes
-- **Settings modal** — per-service toggles with mandatory service support
-- **Light & dark themes** — built-in themes with full CSS custom property support
-- **Accessible** — focus trapping, keyboard navigation, `Escape` to close, ARIA labels
-- **SSR compatible** — works with Next.js, Remix, and other server-rendered frameworks
-- **Fully typed** — written in strict TypeScript with exported types
-- **Tiny footprint** — ~8 KB minified (JS + CSS)
-
 ---
 
-### Live Demo
+### :cookie: Live Demo
 
 > **Try it out instantly!**
 >
 > [![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/Mas-HJ/react-cookie-consent-popup/tree/main?file=/demo/src/App.tsx)
 
 ---
+
+## Features
+
+- :package: **Zero runtime dependencies** — only React as a peer dependency
+- :gear: **Service management** — define scripts, cookies, localStorage and sessionStorage per service
+- :broom: **Automatic cleanup** — scripts, cookies and storage are removed when consent is revoked
+- :hash: **Hash-based invalidation** — popup reappears automatically when your service config changes
+- :wrench: **Settings modal** — per-service toggles with mandatory service support
+- :art: **Light & dark themes** — built-in themes with full CSS custom property support
+- :wheelchair: **Accessible** — focus trapping, keyboard navigation, `Escape` to close, ARIA labels
+- :globe_with_meridians: **SSR compatible** — works with Next.js, Remix, and other server-rendered frameworks
+- :pencil2: **Fully typed** — written in strict TypeScript with exported types
+- :zap: **Tiny footprint** — ~8 KB minified (JS + CSS)
 
 ## Installation
 
