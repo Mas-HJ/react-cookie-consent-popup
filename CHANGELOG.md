@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-02-24
+## [1.5.0] - 2026-02-25
 
 ### Added
 
@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `aria-labelledby` on popup and settings dialogs for better screen reader support.
 - SSR/Next.js compatibility — all browser API access is guarded with `typeof window`/`typeof document` checks.
 - `prepublishOnly` script ensures tests and build pass before publishing.
-- `preversion` / `postversion` lifecycle scripts for safer releases.
 - GitHub Actions CI workflow (lint, test, build).
 - `CHANGELOG.md` and `CONTRIBUTING.md`.
 - `./styles` export path for cleaner CSS imports.
