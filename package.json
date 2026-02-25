@@ -34,8 +34,7 @@
         "test:dev": "jest --watch",
         "coverage": "jest --coverage",
         "preversion": "yarn test",
-        "prepublishOnly": "yarn test && yarn build",
-        "postversion": "git push && git push --tags"
+        "prepublishOnly": "yarn test && yarn build"
     },
     "keywords": [
         "react",
