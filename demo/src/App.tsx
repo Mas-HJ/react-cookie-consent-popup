@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import {
     ConsentPopup,
     ConsentProvider,
@@ -6,7 +6,7 @@ import {
     type Theme,
     type ConsentService,
 } from 'react-cookie-consent-popup';
-import 'react-cookie-consent-popup/dist/styles/style.css';
+import 'react-cookie-consent-popup/styles';
 
 const services: ConsentService[] = [
     {
@@ -80,6 +80,35 @@ function ConsentStatus() {
     );
 }
 
+function ConsentLog({ entries }: { entries: string[] }) {
+    if (entries.length === 0) return null;
+
+    return (
+        <div style={{ textAlign: 'left', width: '100%', maxWidth: 520 }}>
+            <h3 style={{ marginBottom: 12, fontSize: 16 }}>onConsentChange Log</h3>
+            <div
+                style={{
+                    border: '1px solid var(--border)',
+                    borderRadius: 8,
+                    padding: 16,
+                    maxHeight: 160,
+                    overflowY: 'auto',
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    lineHeight: 1.8,
+                    background: 'var(--input-bg)',
+                }}
+            >
+                {entries.map((entry, i) => (
+                    <div key={i} style={{ opacity: i === entries.length - 1 ? 1 : 0.5 }}>
+                        {entry}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 function FeatureCard({ title, description }: { title: string; description: string }) {
     return (
         <div
@@ -96,7 +125,15 @@ function FeatureCard({ title, description }: { title: string; description: strin
     );
 }
 
-function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t: Theme) => void }) {
+function DemoContent({
+    theme,
+    onThemeChange,
+    logEntries,
+}: {
+    theme: Theme;
+    onThemeChange: (t: Theme) => void;
+    logEntries: string[];
+}) {
     const [settingsHidden, setSettingsHidden] = useState(false);
     const [declineHidden, setDeclineHidden] = useState(false);
     const [approveLabel, setApproveLabel] = useState('Accept All');
@@ -121,7 +158,9 @@ function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t
                 <div style={{ maxWidth: 640, margin: '0 auto' }}>
                     <div style={{ textAlign: 'center', marginBottom: 40 }}>
                         <h1 style={{ fontSize: 28, marginBottom: 4 }}>react-cookie-consent-popup</h1>
-                        <p style={{ opacity: 0.6, fontSize: 14 }}>Interactive Demo</p>
+                        <p style={{ opacity: 0.6, fontSize: 14, marginTop: 4 }}>
+                            Zero-dependency GDPR cookie consent for React
+                        </p>
                     </div>
 
                     {/* Theme Toggle */}
@@ -152,6 +191,11 @@ function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t
                     {/* Consent Status */}
                     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
                         <ConsentStatus />
+                    </div>
+
+                    {/* onConsentChange Log */}
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+                        <ConsentLog entries={logEntries} />
                     </div>
 
                     {/* Popup Customization */}
@@ -226,13 +270,54 @@ function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t
                         </div>
                     </div>
 
+                    {/* CSS Custom Properties */}
+                    <div style={{ marginBottom: 40 }}>
+                        <h3 style={{ fontSize: 16, marginBottom: 12 }}>CSS Custom Properties</h3>
+                        <p style={{ fontSize: 13, opacity: 0.7, lineHeight: 1.6, marginBottom: 12 }}>
+                            Override any <code>--rcc-*</code> variable to match your brand. No need to fork the
+                            library.
+                        </p>
+                        <div
+                            style={{
+                                border: '1px solid var(--border)',
+                                borderRadius: 8,
+                                padding: 16,
+                                fontFamily: 'monospace',
+                                fontSize: 12,
+                                lineHeight: 1.8,
+                                background: 'var(--input-bg)',
+                                overflowX: 'auto',
+                            }}
+                        >
+                            {`[data-theme='light'] {
+  --rcc-text: #1a1a2e;
+  --rcc-bg: #ffffff;
+  --rcc-backdrop: rgb(0 0 0 / 45%);
+  --rcc-border: #e0e0e0;
+  --rcc-btn-primary-bg: #2563eb;
+  --rcc-btn-primary-text: #ffffff;
+  --rcc-btn-secondary-bg: transparent;
+  --rcc-btn-secondary-text: #2563eb;
+  --rcc-btn-secondary-border: #2563eb;
+}`}
+                        </div>
+                    </div>
+
                     {/* Features */}
                     <div>
                         <h3 style={{ fontSize: 16, marginBottom: 16 }}>Features</h3>
                         <div style={{ display: 'grid', gap: 8 }}>
                             <FeatureCard
+                                title="Zero Runtime Dependencies"
+                                description="Only React as a peer dependency. No external packages — everything is built in."
+                            />
+                            <FeatureCard
                                 title="Service Management"
                                 description="Define services with scripts, cookies, localStorage, and sessionStorage items. Scripts are loaded/unloaded automatically based on consent."
+                            />
+                            <FeatureCard
+                                title="onConsentChange Callback"
+                                description="React to consent changes in real time — fire analytics events, sync with your backend, or update UI. See the log above when you accept or decline."
                             />
                             <FeatureCard
                                 title="Hash-Based Invalidation"
@@ -244,7 +329,15 @@ function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t
                             />
                             <FeatureCard
                                 title="Light & Dark Themes"
-                                description="Toggle between light and dark themes. Uses CSS custom properties for easy customization."
+                                description="Toggle between light and dark themes. Uses CSS custom properties for easy customization — override any --rcc-* variable."
+                            />
+                            <FeatureCard
+                                title="Accessible"
+                                description="Focus trapping, Escape key to close, focus restoration, ARIA attributes, and keyboard-friendly toggle switches."
+                            />
+                            <FeatureCard
+                                title="SSR Compatible"
+                                description="All browser APIs are guarded with runtime checks. Works out of the box with Next.js, Remix, and Gatsby."
                             />
                             <FeatureCard
                                 title="Fully Customizable Labels"
@@ -284,9 +377,16 @@ function DemoContent({ theme, onThemeChange }: { theme: Theme; onThemeChange: (t
 
 export function App() {
     const [theme, setTheme] = useState<Theme>('light');
+    const [logEntries, setLogEntries] = useState<string[]>([]);
+
+    const handleConsentChange = useCallback((consent: string[]) => {
+        const time = new Date().toLocaleTimeString();
+        const ids = consent.length > 0 ? consent.join(', ') : '(none)';
+        setLogEntries((prev) => [...prev, `[${time}] consent: [${ids}]`]);
+    }, []);
 
     return (
-        <ConsentProvider options={{ services, theme }} key={theme}>
+        <ConsentProvider options={{ services, theme, onConsentChange: handleConsentChange }} key={theme}>
             <style>{`
                 :root {
                     --bg: ${theme === 'light' ? '#f8f9fa' : '#0f0f1a'};
@@ -296,6 +396,12 @@ export function App() {
                 }
                 * { box-sizing: border-box; }
                 body { margin: 0; }
+                code {
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    background: var(--border);
+                    font-size: 12px;
+                }
                 .demo-btn {
                     padding: 8px 18px;
                     border-radius: 6px;
@@ -331,7 +437,7 @@ export function App() {
                     border-color: #2563eb;
                 }
             `}</style>
-            <DemoContent theme={theme} onThemeChange={setTheme} />
+            <DemoContent theme={theme} onThemeChange={setTheme} logEntries={logEntries} />
         </ConsentProvider>
     );
 }

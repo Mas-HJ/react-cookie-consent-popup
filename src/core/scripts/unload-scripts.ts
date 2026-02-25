@@ -2,6 +2,8 @@ import { ELEMENT_ID_PREFIX } from '../../config';
 import type { ConsentScript } from '../../ConsentContext';
 
 export function unloadScripts(serviceId: string, scripts: ConsentScript[]): void {
+    if (typeof document === 'undefined') return;
+
     for (const script of scripts) {
         const elementId = `${ELEMENT_ID_PREFIX}-${serviceId}-${script.id}`;
         const element = document.getElementById(elementId);

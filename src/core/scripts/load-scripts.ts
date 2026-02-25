@@ -9,6 +9,8 @@ function buildElementId(serviceId: string, scriptId: string): string {
 }
 
 export function loadScripts(serviceId: string, scripts: ConsentScript[]): void {
+    if (typeof document === 'undefined') return;
+
     for (const script of scripts) {
         const elementId = buildElementId(serviceId, script.id);
 

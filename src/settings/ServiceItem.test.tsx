@@ -52,6 +52,7 @@ describe('ServiceItem', () => {
     it('renders a toggle with correct aria-label', () => {
         renderItem({ serviceId: 'analytics', name: 'Analytics', onChange: jest.fn() });
 
+        expect(screen.getByRole('checkbox')).toBeInTheDocument();
         expect(screen.getByLabelText('Toggle Analytics')).toBeInTheDocument();
     });
 });

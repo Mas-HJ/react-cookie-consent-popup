@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import hash from 'object-hash';
 import type { ConsentOptions } from './ConsentContext';
+import { hashServices } from './core/hash';
 import { retrieveConsent } from './core/local-storage/retrieve';
 import { reconcileServices } from './core/reconcile-services';
 import { activateServices } from './core/activate-services';
@@ -9,12 +9,12 @@ function computeHash(options: ConsentOptions): string {
     if (options.customHash) {
         return options.customHash;
     }
-    return hash(options.services.map((s) => ({ id: s.id, name: s.name })));
+    return hashServices(options.services);
 }
 
 export function useConsentState(options: ConsentOptions) {
     const optionsHash = computeHash(options);
-    const { services } = options;
+    const { services, onConsentChange } = options;
 
     const [consent, setConsentState] = useState<string[]>(() => {
         const { consent: stored, isValid } = retrieveConsent(optionsHash);
@@ -29,6 +29,8 @@ export function useConsentState(options: ConsentOptions) {
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
     const previousConsentRef = useRef<string[]>(consent);
+    const onConsentChangeRef = useRef(onConsentChange);
+    onConsentChangeRef.current = onConsentChange;
 
     // On initial mount, activate services that already have consent
     useEffect(() => {
@@ -44,6 +46,7 @@ export function useConsentState(options: ConsentOptions) {
             reconcileServices(services, prev, nextConsent, optionsHash);
             setConsentState(nextConsent);
             previousConsentRef.current = nextConsent;
+            onConsentChangeRef.current?.(nextConsent);
         },
         [services, optionsHash]
     );

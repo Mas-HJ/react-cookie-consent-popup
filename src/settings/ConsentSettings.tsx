@@ -31,10 +31,10 @@ export function ConsentSettings({ onClose, modal }: ConsentSettingsProps) {
     const closeLabel: ReactNode = modal?.close ?? 'Close';
 
     return (
-        <div className="rcc-settings" role="dialog" aria-modal="true" aria-label="Cookie Settings">
+        <div className="rcc-settings" role="dialog" aria-modal="true" aria-labelledby="rcc-settings-title">
             <div className="rcc-settings__content">
                 <header className="rcc-settings__header">
-                    <h2 className="rcc-settings__title">{titleContent}</h2>
+                    <h2 id="rcc-settings-title" className="rcc-settings__title">{titleContent}</h2>
                     <button
                         type="button"
                         className="rcc-settings__close"

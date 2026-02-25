@@ -7,6 +7,10 @@ interface RetrievedConsent {
 }
 
 export function retrieveConsent(currentHash: string): RetrievedConsent {
+    if (typeof window === 'undefined') {
+        return { consent: [], isValid: false };
+    }
+
     const raw = localStorage.getItem(STORAGE_KEY);
 
     if (!raw) {

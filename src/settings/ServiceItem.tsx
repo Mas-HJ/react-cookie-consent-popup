@@ -1,4 +1,3 @@
-import Toggle from 'react-toggle';
 import { useConsent } from '../useConsent';
 
 interface ServiceItemProps {
@@ -8,15 +7,6 @@ interface ServiceItemProps {
     mandatory?: boolean;
     onChange: (serviceId: string, enabled: boolean) => void;
 }
-
-// Type workaround: react-toggle's types are slightly incompatible with strict React 18 JSX
-const ToggleComponent = Toggle as unknown as React.ComponentType<{
-    id?: string;
-    defaultChecked?: boolean;
-    disabled?: boolean;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    'aria-label'?: string;
-}>;
 
 export function ServiceItem({ serviceId, name, description, mandatory, onChange }: ServiceItemProps) {
     const { hasConsent } = useConsent();
@@ -35,13 +25,17 @@ export function ServiceItem({ serviceId, name, description, mandatory, onChange 
                     <p className="rcc-settings__item__description">{description}</p>
                 )}
             </div>
-            <ToggleComponent
-                id={`rcc-toggle-${serviceId}`}
-                defaultChecked={mandatory || hasConsent(serviceId)}
-                disabled={mandatory}
-                onChange={handleChange}
-                aria-label={`Toggle ${name}`}
-            />
+            <label className="rcc-toggle" aria-label={`Toggle ${name}`}>
+                <input
+                    type="checkbox"
+                    id={`rcc-toggle-${serviceId}`}
+                    className="rcc-toggle__input"
+                    defaultChecked={mandatory || hasConsent(serviceId)}
+                    disabled={mandatory}
+                    onChange={handleChange}
+                />
+                <span className="rcc-toggle__track" />
+            </label>
         </div>
     );
 }

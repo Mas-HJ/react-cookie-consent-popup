@@ -37,6 +37,7 @@ export interface ConsentOptions {
     services: ConsentService[];
     customHash?: string;
     theme?: Theme;
+    onConsentChange?: (consent: string[]) => void;
 }
 
 // ── Settings Modal Customization ────────────────────────────────────

@@ -7,6 +7,8 @@ export interface PersistedConsent {
 }
 
 export function persistConsent(consent: string[], hash: string): void {
+    if (typeof window === 'undefined') return;
+
     const data: PersistedConsent = {
         consent,
         hash,

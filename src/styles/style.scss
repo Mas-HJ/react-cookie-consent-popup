@@ -1,9 +1,6 @@
 @use 'variables';
 @use 'utils' as *;
 
-// react-toggle base styles
-@import 'react-toggle/style.css';
-
 // ── Shared Button Styles ────────────────────────────────────────────
 
 %btn-base {
@@ -43,6 +40,66 @@
         background-color: var(--rcc-btn-secondary-border);
         color: var(--rcc-btn-primary-text);
     }
+}
+
+// ── Custom Toggle Switch ────────────────────────────────────────────
+
+.rcc-toggle {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.rcc-toggle__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.rcc-toggle__track {
+    display: inline-block;
+    width: to-rem(46);
+    height: to-rem(24);
+    border-radius: to-rem(12);
+    background-color: var(--rcc-border);
+    transition: background-color 0.2s ease;
+
+    &::after {
+        content: '';
+        display: block;
+        width: to-rem(18);
+        height: to-rem(18);
+        margin: to-rem(3);
+        border-radius: 50%;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+        transition: transform 0.2s ease;
+    }
+}
+
+.rcc-toggle__input:checked + .rcc-toggle__track {
+    background-color: var(--rcc-btn-primary-bg);
+
+    &::after {
+        transform: translateX(to-rem(22));
+    }
+}
+
+.rcc-toggle__input:disabled + .rcc-toggle__track {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.rcc-toggle__input:focus-visible + .rcc-toggle__track {
+    outline: 2px solid var(--rcc-btn-primary-bg);
+    outline-offset: 2px;
 }
 
 // ── Popup Overlay ───────────────────────────────────────────────────

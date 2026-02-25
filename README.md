@@ -3,9 +3,23 @@
 [![npm version](https://img.shields.io/npm/v/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
 [![npm package size](https://img.shields.io/npm/unpacked-size/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
 [![npm downloads](https://img.shields.io/npm/dw/react-cookie-consent-popup)](https://www.npmjs.com/package/react-cookie-consent-popup)
+[![CI](https://github.com/Mas-HJ/react-cookie-consent-popup/actions/workflows/ci.yml/badge.svg)](https://github.com/Mas-HJ/react-cookie-consent-popup/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/react-cookie-consent-popup)](https://github.com/Mas-HJ/react-cookie-consent-popup/blob/main/LICENSE)
 
-A React cookie consent popup component with a centered modal dialog. Supports service management, script loading, cookie/localStorage/sessionStorage cleanup, hash-based consent invalidation, a settings modal with toggles, and light/dark themes.
+A **zero-dependency** React cookie consent popup with GDPR-compliant service management, automatic script loading, storage cleanup, and light/dark themes.
+
+## Features
+
+- **Zero runtime dependencies** — only React as a peer dependency
+- **Service management** — define scripts, cookies, localStorage and sessionStorage per service
+- **Automatic cleanup** — scripts, cookies and storage are removed when consent is revoked
+- **Hash-based invalidation** — popup reappears automatically when your service config changes
+- **Settings modal** — per-service toggles with mandatory service support
+- **Light & dark themes** — built-in themes with full CSS custom property support
+- **Accessible** — focus trapping, keyboard navigation, `Escape` to close, ARIA labels
+- **SSR compatible** — works with Next.js, Remix, and other server-rendered frameworks
+- **Fully typed** — written in strict TypeScript with exported types
+- **Tiny footprint** — ~8 KB minified (JS + CSS)
 
 ---
 
@@ -29,7 +43,7 @@ yarn add react-cookie-consent-popup
 
 ```tsx
 import { ConsentPopup, ConsentProvider } from 'react-cookie-consent-popup';
-import 'react-cookie-consent-popup/dist/styles/style.css';
+import 'react-cookie-consent-popup/styles';
 
 const services = [
     {
@@ -44,7 +58,13 @@ const services = [
         description: 'Helps us understand how visitors use our site.',
         scripts: [
             { id: 'gtag', src: 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX' },
-            { id: 'gtag-init', code: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-XXXXXXX');` },
+            {
+                id: 'gtag-init',
+                code: `window.dataLayer = window.dataLayer || [];
+                       function gtag(){dataLayer.push(arguments);}
+                       gtag('js', new Date());
+                       gtag('config', 'G-XXXXXXX');`,
+            },
         ],
         cookies: [{ pattern: /^_ga/ }],
     },
@@ -63,7 +83,13 @@ const services = [
 
 function App() {
     return (
-        <ConsentProvider options={{ services, theme: 'light' }}>
+        <ConsentProvider
+            options={{
+                services,
+                theme: 'light',
+                onConsentChange: (consent) => console.log('Consent updated:', consent),
+            }}
+        >
             <main>
                 <h1>My Website</h1>
             </main>
@@ -92,11 +118,12 @@ Wraps your application and provides consent state to all child components.
 
 #### `ConsentOptions`
 
-| Field        | Type                 | Required | Description                                                                                                       |
-|--------------|----------------------|----------|-------------------------------------------------------------------------------------------------------------------|
-| `services`   | `ConsentService[]`   | Yes      | Array of services requiring consent                                                                               |
-| `theme`      | `'light' \| 'dark'`  | No       | Color theme (default: `'light'`)                                                                                  |
-| `customHash` | `string`             | No       | Override the auto-generated config hash. When this changes, stored consent is invalidated and the popup reappears |
+| Field              | Type                          | Required | Description                                                                                                       |
+|--------------------|-------------------------------|----------|-------------------------------------------------------------------------------------------------------------------|
+| `services`         | `ConsentService[]`            | Yes      | Array of services requiring consent                                                                               |
+| `theme`            | `'light' \| 'dark'`           | No       | Color theme (default: `'light'`)                                                                                  |
+| `customHash`       | `string`                      | No       | Override the auto-generated config hash. When this changes, stored consent is invalidated and the popup reappears |
+| `onConsentChange`  | `(consent: string[]) => void` | No       | Callback fired whenever consent changes. Receives the array of consented service IDs                             |
 
 #### `ConsentService`
 
@@ -180,7 +207,7 @@ function MyComponent() {
 
 ## Hash-Based Invalidation
 
-Consent is persisted in `localStorage`. A hash is computed from your service configuration. If you add, remove, or rename services, the hash changes automatically and the popup will reappear, prompting users to re-consent.
+Consent is persisted in `localStorage`. A hash is computed from your service configuration (`id` and `name` fields). If you add, remove, or rename services, the hash changes automatically and the popup will reappear, prompting users to re-consent.
 
 You can also force re-consent by providing a `customHash`:
 
@@ -195,6 +222,40 @@ Supports `'light'` and `'dark'` themes out of the box via CSS custom properties.
 ```tsx
 <ConsentProvider options={{ services, theme: 'dark' }}>
 ```
+
+### Custom Theme
+
+Override any CSS variable to match your brand:
+
+```css
+[data-theme='light'] {
+    --rcc-text: #1a1a2e;
+    --rcc-bg: #ffffff;
+    --rcc-backdrop: rgb(0 0 0 / 45%);
+    --rcc-border: #e0e0e0;
+    --rcc-btn-primary-bg: #2563eb;
+    --rcc-btn-primary-text: #ffffff;
+    --rcc-btn-secondary-bg: transparent;
+    --rcc-btn-secondary-text: #2563eb;
+    --rcc-btn-secondary-border: #2563eb;
+    --rcc-scrollbar-track: #f0f0f0;
+    --rcc-scrollbar-thumb: #c0c0c0;
+}
+```
+
+## Accessibility
+
+The popup and settings modal include:
+
+- **Focus trapping** — Tab and Shift+Tab cycle within the modal
+- **Escape key** — closes the settings modal
+- **Focus restoration** — returns focus to the previously focused element on close
+- **ARIA attributes** — `role="dialog"`, `aria-modal`, `aria-labelledby` on both modals
+- **Keyboard-friendly toggles** — custom toggle switches with focus-visible outlines
+
+## SSR / Next.js
+
+All browser API access (`document`, `window`, `localStorage`, `sessionStorage`) is guarded with runtime checks. The library works out of the box with Next.js, Remix, Gatsby, and other server-rendered React frameworks.
 
 ## Development
 
@@ -217,6 +278,14 @@ yarn dev
 # Run tests with coverage
 yarn coverage
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
